@@ -30,7 +30,7 @@ nest-asyncio==1.6.0
 numpy==2.2.4
 orjson==3.10.16
 packaging==24.2
-pandas==2.2.3
+
 parso==0.8.4
 pillow==11.1.0
 platformdirs==4.3.7
