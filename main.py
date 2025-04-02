@@ -1,4 +1,3 @@
-
 import os
 import pandas as pd
 from fastapi import FastAPI, HTTPException
@@ -7,26 +6,27 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 import dask.dataframe as dd
+import uvicorn
 
 app = FastAPI()
 
 # Definir la ruta del dataset
 dataset_path = "dataset_limpio"
 
-# Cargar los datasets con Dask para reducir consumo de memoria
+# Cargar los datasets y manejar excepciones
 try:
-    movies_df = dd.read_parquet(os.path.join(dataset_path, "movies_dataset_cleaned.parquet"))
-    cast_df = dd.read_parquet(os.path.join(dataset_path, "cast.parquet"))
-    crew_df = dd.read_parquet(os.path.join(dataset_path, "crew.parquet"))
-except Exception as e:
-    raise Exception(f"Error al cargar los archivos: {e}")
+    movies_df = pd.read_parquet(os.path.join(dataset_path, "movies_dataset_cleaned.parquet"))
+    cast_df = pd.read_parquet(os.path.join(dataset_path, "cast.parquet"))
+    crew_df = pd.read_parquet(os.path.join(dataset_path, "crew.parquet"))
+except FileNotFoundError:
+    raise Exception("Error: algún archivo parquet no fue encontrado.")
 
 @app.get("/")
 def read_root():
     return {"message": "API en Render funcionando correctamente"}
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))  # Usa el puerto asignado por Render
+    port = int(os.environ.get("PORT", 10000))  # Cambia el puerto a uno dinámico
     uvicorn.run(app, host="0.0.0.0", port=port)
 
 # Asegurar que las columnas de ID sean tipo string para evitar problemas de join
