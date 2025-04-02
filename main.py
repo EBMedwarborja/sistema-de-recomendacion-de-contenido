@@ -20,6 +20,15 @@ try:
 except FileNotFoundError:
     raise Exception ("Error: algun archivo parquet no fue encontrado.")
 
+
+@app.get("/")
+def read_root():
+    return {"message": "API en Render funcionando correctamente"}
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))  # Usa el puerto asignado por Render
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
 # Asegurar que las columnas de ID sean tipo string para evitar problemas de join
 movies_df["id"] = movies_df["id"].astype(str)
 cast_df["id"] = cast_df["id"].astype(str)
