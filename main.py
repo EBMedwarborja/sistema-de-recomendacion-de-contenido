@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
-
+import dask.dataframe as dd
 app = FastAPI()
 
 # Definir la ruta del dataset
