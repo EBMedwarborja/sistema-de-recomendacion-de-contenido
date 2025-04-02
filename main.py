@@ -7,19 +7,19 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 import dask.dataframe as dd
+
 app = FastAPI()
 
 # Definir la ruta del dataset
 dataset_path = "dataset_limpio"
 
-# Cargar los datasets y manejo de excepciones.
+# Cargar los datasets con Dask para reducir consumo de memoria
 try:
-    movies_df = pd.read_parquet(os.path.join(dataset_path, "movies_dataset_cleaned.parquet"))
-    cast_df = pd.read_parquet(os.path.join(dataset_path, "cast.parquet"))
-    crew_df = pd.read_parquet(os.path.join(dataset_path, "crew.parquet"))
-except FileNotFoundError:
-    raise Exception ("Error: algun archivo parquet no fue encontrado.")
-
+    movies_df = dd.read_parquet(os.path.join(dataset_path, "movies_dataset_cleaned.parquet"))
+    cast_df = dd.read_parquet(os.path.join(dataset_path, "cast.parquet"))
+    crew_df = dd.read_parquet(os.path.join(dataset_path, "crew.parquet"))
+except Exception as e:
+    raise Exception(f"Error al cargar los archivos: {e}")
 
 @app.get("/")
 def read_root():
