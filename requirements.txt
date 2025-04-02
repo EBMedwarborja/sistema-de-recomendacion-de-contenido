@@ -62,4 +62,5 @@ wcwidth==0.2.13
 wordcloud==1.9.4
 dask[dataframe]==2024.3.1
 distributed==2024.3.1
+pandas==2.2.2
 
