@@ -10,7 +10,7 @@ import numpy as np
 app = FastAPI()
 
 # Definir la ruta del dataset
-dataset_path = "C:/Users/E B M/Documents/proyecto_mp/dataset_limpio"
+dataset_path = "dataset_limpio"
 
 # Cargar los datasets y manejo de excepciones.
 try:
